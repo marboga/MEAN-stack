@@ -57,23 +57,28 @@
 		}
 		return factory;
 	})
+
 //CONTROLLER
 	friends_app.controller('FriendsController', function($scope, FriendFactory) {
-		FriendFactory.index(function(data){
-			$scope.friends = data;
-		})
+		function index(){
+			FriendFactory.index(function(data){
+				$scope.friends = data;
+			})
+		}
+		index()
 
 		$scope.addfriend = function() {
 			FriendFactory.create($scope.new_friend, function($scope, FriendFactory){
 				// console.log(FriendFactory.index())
-				$scope.friends = FriendFactory.index()
+				$scope.friends = index()
 				$scope.new_friend = {};
 			})
 		}
+
 		$scope.removeFriend = function(friend){
 			console.log('in delete, friendid=', friend._id)
 			FriendFactory.delete(friend, function(friend, FriendFactory){
-			$scope.friends = FriendFactory.index()
+				index()
 			})
 		}
 	})
