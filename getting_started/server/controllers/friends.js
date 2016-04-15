@@ -28,5 +28,16 @@ module.exports = (function(){
 				}
 			})
 		},
+		delete: function(req, res){
+			console.log("in controller, id=",req.params.id)
+			var friend = Friend({_id: req.params.id})
+			friend.remove({_id: req.params.id}, function(err, results){
+				if(err){
+					console.log("err!", err);
+				}else{
+					res.json(results);
+				}
+			})
+		},
 	}
 })();

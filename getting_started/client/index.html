@@ -8,8 +8,17 @@
 <script type="text/javascript" src="/static/angular-route.js"></script>
 <script>
 	//Gotta initialize our module
-	var friends_app = angular.module('friends_app', []);
-	//FACTORY
+	var friends_app = angular.module('friends_app', ['ngRoute']);
+
+	friends_app.config(function($routeProvider){
+		$routeProvider
+		.when('/', {
+			templateUrl: 'partials/partial1.html'
+		})
+		.otherwise({redirectTo: '/'})
+	})
+
+//FACTORY
 	friends_app.factory('FriendFactory', function($http){
 		//make our variables so we can use them
 		var factory = {};
@@ -24,15 +33,6 @@
 			})
 		}
 
-		//show only one friend, restfully. not yet implemented serverside.
-		// factory.show = function(id, callback){
-		// 	console.log(id);
-		// 	$http.get('/friends/:id').success(function(friend){
-		// 		console.log('got friend', friend)
-		// 		callback(friend);
-		// 	})
-		// }
-
 		//add a new friend to the database. info is passed in from controller's scope
 		factory.create = function(info, callback){
 			console.log(info.name, info.age)
@@ -44,19 +44,36 @@
 				callback(info);
 			})
 		}
+
+		factory.delete = function(info, callback){
+			console.log("info=======",info)
+			//send HTTP request to server
+			$http.get('/friends/'+info._id).success(function(info){
+
+				console.log('removing friend from friends', info);
+				//return friends to controller
+				callback(info);
+			})
+		}
 		return factory;
 	})
-	//CONTROLLER
+//CONTROLLER
 	friends_app.controller('FriendsController', function($scope, FriendFactory) {
-
 		FriendFactory.index(function(data){
 			$scope.friends = data;
 		})
+
 		$scope.addfriend = function() {
 			FriendFactory.create($scope.new_friend, function($scope, FriendFactory){
-				console.log(FriendFactory.index())
+				// console.log(FriendFactory.index())
 				$scope.friends = FriendFactory.index()
 				$scope.new_friend = {};
+			})
+		}
+		$scope.removeFriend = function(friend){
+			console.log('in delete, friendid=', friend._id)
+			FriendFactory.delete(friend, function(friend, FriendFactory){
+			$scope.friends = FriendFactory.index()
 			})
 		}
 	})
@@ -67,7 +84,7 @@
   <h1>Friends</h1>
   <input type="text" ng-model="filter_name" placeholder="filter">
   {{filter}}
-  {{friends}}
+  <!-- {{friends}} -->
   <table class="table table-bordered table-striped">
 <thead>
 	<th>
@@ -85,7 +102,7 @@
 			<td>
 			{{friend.name}} </td>
 			<td>{{friend.age}}</td>
-			<td></td>
+			<td><a ng-click="removeFriend(friend)" href="#/friends/{{friend._id}}">remove friend</a></td>
    </tr>
 </tbody>
  </table>

@@ -6,6 +6,8 @@ var path = require('path');
 // instantiate the app
 var app = express();
 var bodyParser = require('body-parser');
+
+
 app.use(bodyParser.json());
 require('./server/config/mongoose.js');
 require('./server/config/routes.js')(app);//THIS GOES LAST OF ALL REQUIRES

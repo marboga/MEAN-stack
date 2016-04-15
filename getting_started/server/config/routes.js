@@ -9,4 +9,8 @@ module.exports = function(app){
 		console.log("req coming in as:", req.body)
 		friends.create(req, res);
 	})
+	app.get('/friends/:id', function(req, res){
+		console.log("req coming in as:", req.params.id)
+		friends.delete(req, res);
+	})
 }
