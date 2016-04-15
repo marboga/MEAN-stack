@@ -1,37 +1,60 @@
 <html ng-app="friends_app">
+<!-- because we need to define our angular app -->
 <head>
 <title>Full Mean Demo</title>
-<!-- require angular -->
+<!-- pull in angular, angular-route and bootstrap -->
 <link rel="stylesheet" href="/static/bootstrap.css">
 <script type="text/javascript" src="/static/angular.js"></script>
 <script type="text/javascript" src="/static/angular-route.js"></script>
 <script>
+	//Gotta initialize our module
 	var friends_app = angular.module('friends_app', []);
-
+	//FACTORY
 	friends_app.factory('FriendFactory', function($http){
+		//make our variables so we can use them
 		var factory = {};
 		var friends = [];
+		//get all friends, restful naming conventions
 		factory.index = function(callback){
-			$http.get('/friends').success(function(output){
-				friends = output;
+			//send HTTP request to server/database
+			$http.get('/friends').success(function(friends){
+				console.log('got friends', friends)
+				//return friends to controller
 				callback(friends);
 			})
 		}
 
+		//show only one friend, restfully. not yet implemented serverside.
+		// factory.show = function(id, callback){
+		// 	console.log(id);
+		// 	$http.get('/friends/:id').success(function(friend){
+		// 		console.log('got friend', friend)
+		// 		callback(friend);
+		// 	})
+		// }
+
+		//add a new friend to the database. info is passed in from controller's scope
 		factory.create = function(info, callback){
-			console.log(info.name, info.age, callback)
-			friends = friends.push({name: info.name, age: info.age});
-			callback(friends);
+			console.log(info.name, info.age)
+			//send HTTP request to server
+			$http.post('/friends', info).success(function(info){
+
+				console.log('adding friend to friends', info)
+				//return friends to controller
+				callback(info);
+			})
 		}
 		return factory;
 	})
-
+	//CONTROLLER
 	friends_app.controller('FriendsController', function($scope, FriendFactory) {
+
 		FriendFactory.index(function(data){
 			$scope.friends = data;
 		})
 		$scope.addfriend = function() {
-			FriendFactory.create($scope.new_friend, function(){
+			FriendFactory.create($scope.new_friend, function($scope, FriendFactory){
+				console.log(FriendFactory.index())
 				$scope.friends = FriendFactory.index()
 				$scope.new_friend = {};
 			})
