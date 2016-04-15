@@ -1,46 +1,54 @@
-<!DOCTYPE html>
 <html ng-app="friends_app">
-	<head>
-		<meta charset="utf-8">
-		<title>full mean demo</title>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-		<script type="text/javascript" src="/angular.js"></script>
-		<script type="text/javascript" src="/angular-route.js">
-		</script>
-		<script type="text/javascript">
-			var friends_app = angular.module('friends_app', []);
+<head>
+<title>Full Mean Demo</title>
+<!-- require angular -->
+<link rel="stylesheet" href="/bootstrap.css">
+<script type="text/javascript" src="/angular.js"></script>
+<script type="text/javascript" src="/angular-route.js"></script>
+<script>
+	var friends_app = angular.module('friends_app', []);
+		// Now let's create a controller with some hardcoded data!
+		friends_app.controller('FriendsController', function($scope) {
+		$scope.friends = [{name: "Michael", age: 34}, {name: "Andrew", age: 24}];
+		$scope.addfriend = function() {
+		$scope.friends.push({name: $scope.new_friend.name, age: $scope.new_friend.age});
+		$scope.new_friend = {};
+		}
+	})
+</script>
+</head>
+<!-- everything in the body is going to use the friends controller (this gives us access to the friends controller $scope) -->
+<body ng-controller="FriendsController">
+  <h1>Friends</h1>
+  <input type="text" ng-model="filter_name" placeholder="filter">
+  {{filter}}
+  <table class="table table-bordered table-striped">
+<thead>
+	<th>
+		Name
+	</th>
+	<th>
+		Age
+	</th>
+	<th>
+		Action
+	</th>
+</thead>
+<tbody>
 
-			friends_app.controller('FriendsController', function($scope){
-				$scope.friends = [
-					{name: "Michael", age: 34},
-					{name: "Dan", age: 44},
-					{name: "Leona", age: 30},
-					{name: "Ygritte", age: 24},
-				]
-				$scope.addFriend = function(){
-					$scope.friends.push({name: $scope.new_friend.name, age: $scope.new_friend.age});
-					$scope.new_friend = {};
-				}
-			})
-		</script>
-	</head>
-	<body ng-controller="FriendsController">
-		<h1>Friends</h1>
-		<input type="text" ng-model="filter_name" placeholder="filter">
-		{{filter_name}}
-		<table class="table table-bordered table-striped">
-			<tr ng-repeat="friend in friends | filter: filter_name">
-				<td>
-					{{friend.name}}
-				</td>
-				<td>
-					 {{friend.age}}
-				</td>
-			</tr>
-		</table>
-		<h1>Add a friend</h1>
-		<input type="text" ng-model="new_friend_name" placeholder="name">
-		<input type="text" ng-model="age" placeholder="age">
-		<input type="submit" ng-click="addFriend()">
-	</body>
+		<tr ng-repeat="friend in friends | filter: filter_name">
+			<td>
+			{{friend.name}} </td>
+			<td>{{friend.age}}</td>
+			<td></td>
+   </tr>
+</tbody>
+ </table>
+  <h1>Add a Friend</h1>
+  <!-- objects and properties nothing scary -->
+  <input type="text" ng-model="new_friend.name" placeholder="name">
+  <input type="text" ng-model="new_friend.age" placeholder="age">
+  <!-- addfriend() is a method we are going to make in the angular controller -->
+  <input type="submit" ng-click="addfriend()">
+</body>
 </html>
