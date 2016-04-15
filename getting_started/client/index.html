@@ -7,12 +7,32 @@
 <script type="text/javascript" src="/angular-route.js"></script>
 <script>
 	var friends_app = angular.module('friends_app', []);
-		// Now let's create a controller with some hardcoded data!
-		friends_app.controller('FriendsController', function($scope) {
-		$scope.friends = [{name: "Michael", age: 34}, {name: "Andrew", age: 24}];
+
+	friends_app.factory('FriendFactory', function(){
+		var factory = {};
+		var friends = [];
+		factory.index = function(){
+			return friends;
+		}
+
+		factory.create = function(info, callback){
+			friends.push({name: info.name, age: info.age});
+			callback(friends);
+		}
+		return factory;
+	})
+
+	friends_app.controller('FriendsController', function($scope, FriendFactory) {
+		$scope.friends = FriendFactory.index()
+		$scope.friends = [
+			{name: "Michael", age: 34},
+			{name: "Andrew", age: 24}
+		];
 		$scope.addfriend = function() {
-		$scope.friends.push({name: $scope.new_friend.name, age: $scope.new_friend.age});
-		$scope.new_friend = {};
+			FriendFactory.create($scope.new_friend, function(){
+				$scope.friends = FriendFactory.index()
+				$scope.new_friend = {};
+			})
 		}
 	})
 </script>
@@ -34,8 +54,7 @@
 		Action
 	</th>
 </thead>
-<tbody>
-
+	<tbody>
 		<tr ng-repeat="friend in friends | filter: filter_name">
 			<td>
 			{{friend.name}} </td>
