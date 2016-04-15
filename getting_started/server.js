@@ -5,6 +5,8 @@ var path = require('path');
 // instantiate the app
 var app = express();
 var bodyParser = require('body-parser');
+require('./server/config/routes.js')(app);
+
 app.use(bodyParser.json());
 
 // set up a static file server that points to the "client" directory

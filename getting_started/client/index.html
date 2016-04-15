@@ -2,32 +2,34 @@
 <head>
 <title>Full Mean Demo</title>
 <!-- require angular -->
-<link rel="stylesheet" href="/bootstrap.css">
-<script type="text/javascript" src="/angular.js"></script>
-<script type="text/javascript" src="/angular-route.js"></script>
+<link rel="stylesheet" href="/static/bootstrap.css">
+<script type="text/javascript" src="/static/angular.js"></script>
+<script type="text/javascript" src="/static/angular-route.js"></script>
 <script>
 	var friends_app = angular.module('friends_app', []);
 
-	friends_app.factory('FriendFactory', function(){
+	friends_app.factory('FriendFactory', function($http){
 		var factory = {};
 		var friends = [];
-		factory.index = function(){
-			return friends;
+		factory.index = function(callback){
+			$http.get('/friends').success(function(output){
+				friends = output;
+				callback(friends);
+			})
 		}
 
 		factory.create = function(info, callback){
-			friends.push({name: info.name, age: info.age});
+			console.log(info.name, info.age, callback)
+			friends = friends.push({name: info.name, age: info.age});
 			callback(friends);
 		}
 		return factory;
 	})
 
 	friends_app.controller('FriendsController', function($scope, FriendFactory) {
-		$scope.friends = FriendFactory.index()
-		$scope.friends = [
-			{name: "Michael", age: 34},
-			{name: "Andrew", age: 24}
-		];
+		FriendFactory.index(function(data){
+			$scope.friends = data;
+		})
 		$scope.addfriend = function() {
 			FriendFactory.create($scope.new_friend, function(){
 				$scope.friends = FriendFactory.index()
@@ -42,6 +44,7 @@
   <h1>Friends</h1>
   <input type="text" ng-model="filter_name" placeholder="filter">
   {{filter}}
+  {{friends}}
   <table class="table table-bordered table-striped">
 <thead>
 	<th>
