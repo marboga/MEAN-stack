@@ -1,0 +1,38 @@
+<div class="container" ng-controller="OrdersController">
+
+<h3>Make an Order</h3>
+<label for="name">Your Name:</label>
+<input type="text" name="name" ng-model="new_order.name">
+<label for="product">Product Name:</label>
+<input type="text" name="product" ng-model="new_order.product">
+<label for="quantity">Quantity:</label>
+<input type="number" name="quantity" ng-model="new_order.quantity">
+<input class="btn btn-primary" type="submit" ng-click="addOrder()" placeholder="name of order"><br><br>
+<h3>Orders</h3>
+<table class="table table-bordered table-striped">
+<thead>
+<th>
+Name
+</th>
+<th>
+Product
+</th>
+<th>
+Quantity
+</th>
+<th>
+Date Ordered
+</th>
+</thead>
+<tbody>
+	<tr ng-repeat="order in orders | filter: {name : filter_name} ">
+		<td>
+		{{order.name}} </td><td>
+		{{order.product}} </td><td>
+		{{order.quantity}} </td><td>
+		{{order.date}} </td>
+		<td><a ng-click="removeOrder(order)" href="#/remove/{{order.name}}">remove friend</a></td>
+ </tr>
+</tbody>
+</table>
+</div>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html ng-app="people_app">
+	<head>
+		<meta charset="utf-8">
+		<title>People Born In 1955 | Home</title>
+		<link rel="stylesheet" href="/static/bootstrap.css">
+		<script type="text/javascript" src="/static/angular.js"></script>
+		<script type="text/javascript" src="/static/angular-route.js"></script>
+		<script type="text/javascript">
+			var people_app = angular.module('people_app', 	[]);
+
+//FACTORY HERE
+			people_app.factory('PersonFactory', function($http){
+				var factory = {};
+				var people = [];
+
+				factory.index = function(callback){
+					$http.get('/people').success(function(people){
+						console.log('people retrieved')
+						callback(people);
+					})
+				}
+
+				factory.create = function(info, callback){
+					console.log(info.name);
+					$http.get('/new/'+info.name).success(function(info){
+						callback(info);
+					})
+				}
+				factory.delete = function(info, callback){
+					console.log('info:', info);
+					$http.get('/remove/'+info.name).success(function(info){
+						console.log('sent data to server');
+						callback(info);
+					})
+				}
+
+				return factory;
+			})
+
+//CONTROLLER HERE
+			people_app.controller('PeopleController', function($scope, PersonFactory){
+				function index(){
+					PersonFactory.index(function(data){
+						$scope.people = data;
+					})
+				}
+				index()
+
+				$scope.addPerson = function(){
+					PersonFactory.create($scope.new_person, function($scope, PersonFactory){
+						$scope.people = index();
+						$scope.new_person = {};
+					})
+				}
+
+				$scope.removePerson = function(person){
+					console.log('trying to remove', person.name);
+					PersonFactory.delete(person, function(person, PersonFactory){
+						index();
+					})
+				}
+
+			})
+
+		</script>
+	</head>
+	<body ng-controller="PeopleController">
+		<input type="text" name="name" ng-model="new_person.name">
+		<input type="submit" ng-click="addPerson()" placeholder="name of person">
+
+		<table class="table table-bordered table-striped">
+	 <thead>
+	 	<th>
+	 		Name
+	 	</th>
+	 	<th>
+	 		Action
+	 	</th>
+	 </thead>
+	 	<tbody>
+	 		<tr ng-repeat="person in people | filter: {name : filter_name} ">
+	 			<td>
+	 			{{person.name}} </td>
+	 			<td><a ng-click="removePerson(person)" href="#/remove/{{person.name}}">remove friend</a></td>
+	    </tr>
+	 </tbody>
+	  </table>
+	</body>
+</html>

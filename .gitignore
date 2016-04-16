@@ -1,4 +1,5 @@
-*/node_modules,
-angular.js,
-angular-route.js,
-bootstrap.css
+**/node_modules,
+**/angular.js,
+**/angular-route.js,
+**/bootstrap.css
+*.zip

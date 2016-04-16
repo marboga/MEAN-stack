@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html ng-app="store_app">
+	<head>
+		<meta charset="utf-8">
+		<title>Orders | Home</title>
+		<link rel="stylesheet" href="/static/bootstrap.css">
+		<script type="text/javascript" src="/static/angular.js"></script>
+		<script type="text/javascript" src="/static/angular-route.js"></script>
+		<script type="text/javascript">
+			var store_app = angular.module('store_app', 	['ngRoute']);
+//ROUTES HERE
+			store_app.config(function($routeProvider){
+				$routeProvider
+				.when('/', {
+					templateUrl: 'views/customers.html'
+				})
+				.when('/orders',{
+					templateUrl: 'views/orders.html'
+				})
+			})
+
+//CUSTOMER FACTORYHERE
+			store_app.factory('CustomerFactory', function($http){
+				var factory = {};
+				var customers = [];
+
+				factory.index = function(callback){
+					$http.get('/customers').success(function(customers){
+						console.log('customers retrieved')
+						callback(customers);
+					})
+				}
+
+				factory.create = function(info, callback){
+					console.log(info.name);
+					$http.get('/new/'+info.name).success(function(info){
+						callback(info);
+					})
+				}
+
+				return factory;
+			})
+
+//CUSTOMER CONTROLLER HERE
+			//wiggles
+
+//ORDER FACTORY HERE
+			store_app.factory('OrderFactory', function($http){
+				var factory = {};
+				var orders = [];
+
+				factory.index = function(callback){
+					$http.get('/orders').success(function(orders){
+						console.log('orders retrieved')
+						callback(orders);
+					})
+				}
+
+				factory.create = function(info, callback){
+					console.log(info.name);
+					$http.get('/new/'+info.name).success(function(info){
+						callback(info);
+					})
+				}
+				factory.delete = function(info, callback){
+					console.log('info:', info);
+					$http.get('/remove/'+info.name).success(function(info){
+						console.log('sent data to server');
+						callback(info);
+					})
+				}
+
+				return factory;
+			})
+
+//CONTROLLER HERE
+			store_app.controller('OrdersController', function($scope, OrderFactory){
+				function index(){
+					OrderFactory.index(function(data){
+						$scope.orders = data;
+					})
+				}
+				index()
+
+				$scope.addOrder = function(){
+					OrderFactory.create($scope.new_order, function($scope, OrderFactory){
+						$scope.orders = index();
+						$scope.new_order = {};
+					})
+				}
+
+				$scope.removeOrder = function(order){
+					console.log('trying to remove', order.name);
+					OrderFactory.delete(order, function(order, OrderFactory){
+						index();
+					})
+				}
+
+			})
+
+		</script>
+	</head>
+	<body>
+
+<a href="#/">Customers</a>  |  <a href="#/orders">Orders</a>
+  <div ng-view=''>
+  </div>
+	</body>
+</html>

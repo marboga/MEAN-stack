@@ -103,7 +103,7 @@
 	</th>
 </thead>
 	<tbody>
-		<tr ng-repeat="friend in friends | filter: filter_name">
+		<tr ng-repeat="friend in friends | filter: {name : filter_name} ">
 			<td>
 			{{friend.name}} </td>
 			<td>{{friend.age}}</td>
