@@ -1,0 +1,27 @@
+div.left-bar {
+	width: 15%;
+	display: inline-block;
+	height: 100%;
+}
+div.main_body {
+	display: inline-block;
+	width: 80%;
+	margin-left: 2%;
+}
+.product {
+	display: inline-block;
+	border: 2px green groove;
+	height: 13em;
+	width: 16em;
+	overflow: hidden;
+	text-align: center;
+}
+.product img {
+	margin: 0 auto;
+	height: 6em;
+	width: 10em;
+}
+h5 {
+	margin: 0;
+	padding: 0;
+}

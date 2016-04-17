@@ -1,0 +1,29 @@
+<div class="container" ng-controller="productsController">
+<div class="left-bar pull-left">
+	<label for="filter_products">filter products</label>
+	<input type="text" name="filter_products" ng-model="filter_input">
+	<br><br>
+	<h4>Add a new product</h4>
+	<label for="name">Name: </label><br>
+	<input type="text" name="name" ng-model="new_product.name"><br>
+	<label for="image">Image (url): </label><br>
+	<input type="text" name="image" ng-model="new_product.image" placeholder="http://"><br>
+	<label for="description">Description: </label><br>
+	<textarea name="description" rows="8" cols="19" ng-model="new_product.description"></textarea><br>
+	<label for="quantity">Initial Quantity: </label><br>
+	<input type="number" placeholder=1 name="quantity" ng-model="new_product.quantity"><br>
+	<input class="btn btn-primary" type="submit" ng-click="addProduct()" value="create new product">
+</div>
+<div class="main_body">
+	<div class="product" ng-repeat="product in products | filter: {name: filter_input}">
+		<img src="{{ product.image }}" alt="{{ product.name }}" class="img-responsive"/><br>
+		<h5>{{ product.name }}</h5><br>
+		{{product.description}}
+	</div>
+</div>
+
+
+
+
+
+</div>

@@ -4,9 +4,10 @@
 		<meta charset="utf-8">
 		<title>Orders | Home</title>
 		<link rel="stylesheet" href="/static/bootstrap.css">
+		<link rel="stylesheet" href="/static/style.css">
 		<script type="text/javascript" src="/static/angular.js"></script>
 		<script type="text/javascript" src="/static/angular-route.js"></script>
-		<!-- <script type="text/javascript" src="./model/CustomerFactory.js"></script> -->
+		<!-- <script type="text/javascript" src="./models/customerFactory.js"></script> -->
 		<script type="text/javascript">
 			var store_app = angular.module('store_app', 	['ngRoute']);
 //ROUTES HERE
@@ -18,11 +19,53 @@
 				.when('/orders',{
 					templateUrl: 'views/orders.html'
 				})
+				.when('/products',{
+					templateUrl: 'views/products.html'
+				})
 				.otherwise('/')
 			})
 
+//PRODUCT FACTORY HERE
+			store_app.factory('productFactory', function($http){
+				var factory = {};
+				var products = [];
+				factory.index = function(callback){
+					$http.get('/products').success(function(products){
+						console.log(products, "= products");
+						callback(products);
+					})
+				}
+				factory.create = function(info, callback){
+					console.log('in factory, info=', info);
+					$http.post('/products/new', info).success(function(info){
+						callback(info);
+					})
+				}
+				return factory;
+			})
+
+//PRODUCT CONTROLLER HERE
+			store_app.controller('productsController', function($scope, productFactory){
+				function index(){
+					productFactory.index(function(data){
+						$scope.products = data;
+						$scope.new_product = {};
+					})
+				}
+				index();
+
+				$scope.addProduct = function(){
+					productFactory.create($scope.new_product, function($scope, productFactory){
+						console.log('made it back to controller from factory');
+						$scope.products = index();
+						$scope.new_product = {};
+					})
+				}
+			})
+
+
 //CUSTOMER FACTORYHERE
-			store_app.factory('CustomerFactory', function($http){
+			store_app.factory('customerFactory', function($http){
 				var factory = {};
 				var customers = [];
 
@@ -53,9 +96,9 @@
 			})
 
 //CUSTOMER CONTROLLER HERE
-			store_app.controller('CustomersController', function($scope, CustomerFactory){
+			store_app.controller('customersController', function($scope, customerFactory){
 				function index(){
-					CustomerFactory.index(function(data){
+					customerFactory.index(function(data){
 						$scope.customers = data;
 						$scope.new_customer = {};
 					})
@@ -63,7 +106,7 @@
 				index();
 
 				$scope.addCustomer = function(){
-					CustomerFactory.create($scope.new_customer, function($scope, CustomerFactory){
+					customerFactory.create($scope.new_customer, function($scope, customerFactory){
 						console.log('returned from add customer factory')
 						$scope.customers = index();
 						$scope.new_customer = {};
@@ -72,7 +115,7 @@
 
 				$scope.removeCustomer = function(customer){
 					console.log('trying to remove', customer.name);
-					CustomerFactory.delete(customer, function(customer, CustomerFactory){
+					customerFactory.delete(customer, function(customer, customerFactory){
 						index();
 					})
 				}
@@ -92,7 +135,7 @@
 			})
 
 //ORDER FACTORY HERE
-			store_app.factory('OrderFactory', function($http){
+			store_app.factory('orderFactory', function($http){
 				var factory = {};
 				var orders = [];
 
@@ -128,15 +171,15 @@
 			})
 
 //ORDER CONTROLLER HERE
-			store_app.controller('OrdersController', function($scope, OrderFactory){
+			store_app.controller('ordersController', function($scope, orderFactory){
 				function index(){
-					OrderFactory.index(function(data){
+					orderFactory.index(function(data){
 						$scope.orders = data;
 						$scope.new_order = {};
 					})
 				}
 				function getCust(){
-					OrderFactory.get_customers(function(data){
+					orderFactory.get_customers(function(data){
 						$scope.customers = data;
 					})
 				}
@@ -145,7 +188,7 @@
 
 				$scope.addOrder = function(){
 					console.log($scope.new_order.number, "new order here")
-					OrderFactory.create($scope.new_order, function($scope, OrderFactory){
+					orderFactory.create($scope.new_order, function($scope, orderFactory){
 						$scope.orders = index();
 						$scope.new_order = {};
 					})
@@ -153,7 +196,7 @@
 
 				$scope.removeOrder = function(order){
 					console.log('trying to remove', order.name);
-					OrderFactory.delete(order, function(order, OrderFactory){
+					orderFactory.delete(order, function(order, orderFactory){
 						index();
 					})
 				}
@@ -164,7 +207,7 @@
 	</head>
 	<body>
 
-<a href="#/">Customers</a>  |  <a href="#/orders">Orders</a>
+<a href="#/">Dashboard</a> | <a href="#/">Customers</a>  |  <a href="#/orders">Orders</a> | <a href="#/products">Products</a>
   <div ng-view=''>
   </div>
 	</body>
