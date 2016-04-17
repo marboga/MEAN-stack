@@ -14,15 +14,18 @@ Name
 <th>
 Date Joined
 </th>
+<th>
+Action
+</th>
 </thead>
 <tbody>
+	<input class="pull-right" type="text" name="filter_input" ng-model="filter_name">
+	<label class="pull-right" for="filter_input">filter customers: </label>
 	<tr ng-repeat="customer in customers | filter: {name : filter_name} ">
-		<td>
-		{{customer.name}} </td><td>
-		{{customer.product}} </td><td>
-		{{customer.quantity}} </td><td>
-		{{customer.date}} </td>
-		<td><a ng-click="removeCustomer(customer)" href="#/remove/{{customer.name}}">remove customer</a></td>
+		<td>{{customer.name}} </td>
+		<td>{{customer.date | date}} </td>
+		<!-- <td>{{customer.orders}} </td> -->
+		<td><a ng-click="removeCustomer(customer)" href="#/remove/{{customer._id}}">remove customer</a></td>
  </tr>
 </tbody>
 </table>

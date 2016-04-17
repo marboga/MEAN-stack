@@ -17,6 +17,7 @@
 				.when('/orders',{
 					templateUrl: 'views/orders.html'
 				})
+				.otherwise('/')
 			})
 
 //CUSTOMER FACTORYHERE
@@ -32,8 +33,17 @@
 				}
 
 				factory.create = function(info, callback){
-					console.log(info.name);
-					$http.get('/new/'+info.name).success(function(info){
+					console.log("in factory, info.name = ",info.name);
+					$http.post('/customers/new', info).success(function(info){
+						console.log("posted to server")
+						callback(info);
+					})
+				}
+
+				factory.delete = function(info, callback){
+					console.log('info:', info);
+					$http.get('/customers/remove/'+info._id).success(function(info){
+						console.log('sent data to server');
 						callback(info);
 					})
 				}
@@ -42,12 +52,43 @@
 			})
 
 //CUSTOMER CONTROLLER HERE
-			//wiggles
+			store_app.controller('CustomersController', function($scope, CustomerFactory){
+				function index(){
+					CustomerFactory.index(function(data){
+						$scope.customers = data;
+						$scope.new_customer = {};
+					})
+				}
+				index();
+
+				$scope.addCustomer = function(){
+					CustomerFactory.create($scope.new_customer, function($scope, CustomerFactory){
+						console.log('returned from add customer factory')
+						$scope.customers = index();
+						$scope.new_customer = {};
+					})
+				}
+
+				$scope.removeCustomer = function(customer){
+					console.log('trying to remove', customer.name);
+					CustomerFactory.delete(customer, function(customer, CustomerFactory){
+						index();
+					})
+				}
+
+			})
 
 //ORDER FACTORY HERE
 			store_app.factory('OrderFactory', function($http){
 				var factory = {};
 				var orders = [];
+
+				factory.get_customers = function(callback){
+					$http.get('/customers').success(function(customers){
+						console.log('customers retrieved')
+						callback(customers);
+					})
+				}
 
 				factory.index = function(callback){
 					$http.get('/orders').success(function(orders){
@@ -57,8 +98,8 @@
 				}
 
 				factory.create = function(info, callback){
-					console.log(info.name);
-					$http.get('/new/'+info.name).success(function(info){
+					console.log(info.number);
+					$http.post('/orders/new').success(function(info){
 						callback(info);
 					})
 				}
@@ -73,16 +114,24 @@
 				return factory;
 			})
 
-//CONTROLLER HERE
+//ORDER CONTROLLER HERE
 			store_app.controller('OrdersController', function($scope, OrderFactory){
 				function index(){
 					OrderFactory.index(function(data){
 						$scope.orders = data;
+						$scope.new_order = {};
+					})
+				}
+				function getCust(){
+					OrderFactory.get_customers(function(data){
+						$scope.customers = data;
 					})
 				}
 				index()
+				getCust()
 
 				$scope.addOrder = function(){
+					console.log($scope.new_order.number, "new order here")
 					OrderFactory.create($scope.new_order, function($scope, OrderFactory){
 						$scope.orders = index();
 						$scope.new_order = {};
