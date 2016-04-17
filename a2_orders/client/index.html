@@ -98,8 +98,8 @@
 				}
 
 				factory.create = function(info, callback){
-					console.log(info.number);
-					$http.post('/orders/new').success(function(info){
+					console.log(info, "this is data passing through orders factory");
+					$http.post('/orders/new', info).success(function(info){
 						callback(info);
 					})
 				}

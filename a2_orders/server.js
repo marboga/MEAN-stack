@@ -4,8 +4,7 @@ var express = require('express');
 var path = require('path');
 var app = express();
 var bodyParser = require('body-parser');
-var moment = require('moment');
-moment().format();
+
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, './client')));

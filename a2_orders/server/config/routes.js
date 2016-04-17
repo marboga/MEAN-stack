@@ -14,10 +14,11 @@ module.exports = function(app){
 	app.get('/customers/remove/:id', function(req, res){
 		customers.destroy(req, res)
 	})
-	app.get('/:id', function(req, res){
-		customers.get_one(req, res)
-	})
 	app.get('/orders', function(req, res){
 		orders.get_all(req, res)
+	})
+	app.post('/orders/new', function(req, res){
+		console.log(req.body, "this came down the pipe")
+		orders.create_order(req, res)
 	})
 }

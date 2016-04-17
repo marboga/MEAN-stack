@@ -14,14 +14,17 @@ module.exports = {
 		})
 	},
 	create_order: function(req, res){
-		console.log('this is data posted: ',req.params);
+		console.log('this is data posted: ',req.body);
 		var order = new Order({
-			name: req.params.name,
-		 });
+			name: req.body.name,
+			number: req.body.number,
+			product: req.body.product,
+		});
+		console.log('new order=', order)
 		order.save(function(err){
 			if (err){
-				console.log('error occurred! beep beep');
-				res.json('index', {err: err});
+				console.log('error occurred in DB entry beep beep');
+				res.json(err);
 			}else{
 				res.redirect('/');
 			}
