@@ -1,6 +1,6 @@
 <div class="container" ng-controller="productsController">
 <div class="left-bar pull-left">
-	<label for="filter_products">filter products</label>
+	<label for="filter_products">filter products</label><br>
 	<input type="text" name="filter_products" ng-model="filter_input">
 	<br><br>
 	<h4>Add a new product</h4>
@@ -14,12 +14,15 @@
 	<input type="number" placeholder=1 name="quantity" ng-model="new_product.quantity"><br>
 	<input class="btn btn-primary" type="submit" ng-click="addProduct()" value="create new product">
 </div>
-<div class="main_body">
-	<div class="product" ng-repeat="product in products | filter: {name: filter_input}">
-		<img src="{{ product.image }}" alt="{{ product.name }}" class="img-responsive"/><br>
+<div class="main_body" ng-init="limit = 6">
+	<div class="product"
+	ng-repeat="product in products | filter: {name: filter_input} | limitTo: limit as results ">
+		<img src="{{product.image}}" alt="{{ product.name }}" class="img-responsive"/><br>
 		<h5>{{ product.name }}</h5><br>
-		{{product.description}}
-	</div>
+		{{product.description}}<br>
+		({{product.quantity}} remaining)
+	</div><br>
+	<button class="btn btn-primary pull-right" ng-hide="results.length == products.length" ng-click="limit = limit + 6">show more items</button>
 </div>
 
 

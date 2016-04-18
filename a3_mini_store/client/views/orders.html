@@ -9,10 +9,7 @@
 </select>
 <label for="product">Product Name:</label>
 <select name="product" ng-model="new_order.product">
-	<option>Lizard Wings</option>
-	<option>Cheese Sticks</option>
-	<option>Pretzel Bagels</option>
-	<option>Flying Monkeys</option>
+	<option ng-repeat="product in products" value="{{product.name}}">{{product.name}}</option>
 </select>
 <label for="quantity">Quantity:</label>
 <input type="number" ng-model="new_order.number">

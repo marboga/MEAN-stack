@@ -1,4 +1,3 @@
-console.log('in customerFactory')
 var store_app = angular.module('store_app', 	['ngRoute']);
 
 store_app.factory('customerFactory', function($http){

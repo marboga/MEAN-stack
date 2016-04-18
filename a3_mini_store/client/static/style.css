@@ -1,27 +1,35 @@
+div.container {
+	width: 100%
+}
+
 div.left-bar {
-	width: 15%;
+	width: 180px;
 	display: inline-block;
 	height: 100%;
+	/*outline: dotted red 1px;*/
 }
 div.main_body {
 	display: inline-block;
-	width: 80%;
+	width: 70%;
+	min-width: 17em
 	margin-left: 2%;
 }
 .product {
 	display: inline-block;
 	border: 2px green groove;
-	height: 13em;
+	height: 16em;
 	width: 16em;
 	overflow: hidden;
 	text-align: center;
+	margin-right: 5px;
 }
 .product img {
 	margin: 0 auto;
 	height: 6em;
 	width: 10em;
 }
-h5 {
+.product h5 {
 	margin: 0;
 	padding: 0;
+	font-weight: bolder;
 }
