@@ -1,4 +1,8 @@
-store_app.controller('customersController', function($scope, customerFactory){
+store_app.controller('customersController', function($scope, customerFactory, loginFactory, $location){
+	$scope.customers = [];
+	$scope.user
+	$scope.dupe_message = "";
+
 	function index(){
 		customerFactory.index(function(data){
 			$scope.customers = data;
@@ -21,6 +25,18 @@ store_app.controller('customersController', function($scope, customerFactory){
 			index();
 		})
 	}
+
+	var getUser = function(){
+		loginFactory.getUser(function(data){
+			if (data){
+				$scope.user = data
+			}else{
+				$location.url('/')
+			}
+		})
+	}
+	getUser()
+
 
 	$scope.noDuplicateName = function(){
 		if($scope.new_customer !== undefined){

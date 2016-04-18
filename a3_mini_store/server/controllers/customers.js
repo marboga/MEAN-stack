@@ -49,5 +49,30 @@ module.exports = {
 				res.json('index', {customer : customer})
 			}
 		})
-	}
+	},
+
+	login: function(req, res){
+		console.log(req.body.name, "INSIDE LOGIN FUNCTION")
+		Customer.findOne({name: req.body.name}, function(err, customer){
+			if (err){
+				res.json(err)
+			}else{
+				if (customer){
+					res.json(customer)
+				}else{
+					var customer = new Customer({
+						name: req.body.name,
+						orders: [],
+					 })
+					customer.save(function(err, customer){
+						if (err){
+							res.json(err)
+						}else{
+							res.json(customer)
+						}
+					})
+				}
+			}
+		})
+	},
 }

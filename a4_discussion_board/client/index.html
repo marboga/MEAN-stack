@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html ng-app="store_app">
+	<head>
+		<meta charset="utf-8">
+		<title>Orders | Home</title>
+		<link rel="stylesheet" href="/static/bootstrap.css">
+		<link rel="stylesheet" href="/static/style.css">
+		<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/angular-moment/0.9.0/angular-moment.min.js"></script>
+		<script type="text/javascript" src="/static/angular.js"></script>
+		<script type="text/javascript" src="/static/angular-route.js"></script>
+		<script type="text/javascript" src="./js/config/app.js"></script>
+		<script type="text/javascript" src="./js/factories/userFactory.js"></script>
+		<script type="text/javascript" src="./js/factories/topicFactory.js"></script>
+		 src="./js/controllers/productsController.js"></script>
+		<script type="text/javascript" src="./js/controllers/usersController.js"></script>
+		<script type="text/javascript" src="./js/controllers/topicsController.js"></script>
+		<script type="text/javascript" src="./js/config/routes.js"></script>
+		<script type="text/javascript">
+
+		</script>
+	</head>
+	<body>
+
+<a href="#/">Dashboard</a> | <a href="#/">Customers</a>  |  <a href="#/orders">Orders</a> | <a href="#/products">Products</a><br><br>
+  <div ng-view=''>
+  </div>
+	</body>
+</html>

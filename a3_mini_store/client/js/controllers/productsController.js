@@ -1,4 +1,6 @@
 store_app.controller('productsController', function($scope, productFactory){
+	$scope.products = [];
+
 	function index(){
 		productFactory.index(function(data){
 			$scope.products = data;

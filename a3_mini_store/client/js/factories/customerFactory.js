@@ -1,10 +1,10 @@
-var store_app = angular.module('store_app', 	['ngRoute']);
-
+console.log('in customer factory')
 store_app.factory('customerFactory', function($http){
 	var factory = {};
 	var customers = [];
 
 	factory.index = function(callback){
+		console.log('in customer factory index')
 		$http.get('/customers').success(function(customers){
 			console.log('customers retrieved')
 			callback(customers);

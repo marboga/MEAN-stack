@@ -3,13 +3,24 @@ store_app.config(function($routeProvider){
 	$routeProvider
 
 	.when('/', {
-		templateUrl: 'views/customers.html'
+		templateUrl: './../views/login.html',
+		controller: 'loginsController'
 	})
-	.when('/orders',{
-		templateUrl: 'views/orders.html'
+	.when('/dashboard', {
+		templateUrl: './../views/dashboard.html',
+		controller: 'dashboardsController'
 	})
-	.when('/products',{
-		templateUrl: 'views/products.html'
+	.when('/customers', {
+		templateUrl: './../views/customers.html',
+		controller: 'customersController'
+	})
+	.when('/orders', {
+		templateUrl: './../views/orders.html',
+		controller: 'ordersController'
+	})
+	.when('/products', {
+		templateUrl: './../views/products.html',
+		controller: 'productsController'
 	})
 	.otherwise('/')
 })

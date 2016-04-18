@@ -1,4 +1,4 @@
-console.log('in controllers/orders.js')
+console.log('in controllers/products.js')
 
 var mongoose = require('mongoose');
 var Product = mongoose.model('Product');
@@ -30,5 +30,16 @@ module.exports = {
 			}
 		});
 	},
+	update_count: function(req, res){
+		console.log('subtracting from product', req.body.quantity, req.body.name)
+		var qty = Product.quantity - req.body.quantity
+		Product.save(req.body._id, {quantity: qty}, function(err, product){
+			if (err){
+				res.json(err)
+			}else{
+				res.json(product)
+			}
+		})
+	}
 
 }

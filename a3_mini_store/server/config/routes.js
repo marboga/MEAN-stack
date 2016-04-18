@@ -2,6 +2,7 @@ console.log('in config/routes.js')
 var customers = require('../controllers/customers.js');
 var orders = require('../controllers/orders.js');
 var products = require('../controllers/products.js');
+var users = require('../controllers/users.js');
 
 module.exports = function(app){
 	app.get('/customers', function(req, res){
@@ -20,6 +21,7 @@ module.exports = function(app){
 	})
 	app.post('/orders/new', function(req, res){
 		console.log(req.body, "this came down the pipe")
+		products.update_count(req, res)
 		orders.create_order(req, res)
 	})
 	app.get('/products', function(req, res){
@@ -30,5 +32,9 @@ module.exports = function(app){
 		console.log('posted data', req.body)
 		products.create_product(req, res)
 	})
+	app.post('/login', function(req, res){
+		console.log('data', req.body)
+		customers.login(req, res)
 
+	})
 }

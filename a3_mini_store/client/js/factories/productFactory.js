@@ -1,9 +1,10 @@
-var store_app = angular.module('store_app', ['ngRoute']);
+console.log('in product factory')
 
 store_app.factory('productFactory', function($http){
 	var factory = {};
 	var products = [];
 	factory.index = function(callback){
+		console.log('in product factory index')
 		$http.get('/products').success(function(products){
 			console.log(products, "= products");
 			callback(products);

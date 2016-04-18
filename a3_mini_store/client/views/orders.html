@@ -12,7 +12,7 @@
 	<option ng-repeat="product in products" value="{{product.name}}">{{product.name}}</option>
 </select>
 <label for="quantity">Quantity:</label>
-<input type="number" ng-model="new_order.number">
+<input type="number" ng-model="new_order.quantity">
 <input class="btn btn-primary" type="submit" ng-click="addOrder()" placeholder="name of order"><br><br>
 <h3>Orders</h3>
 <table class="table table-bordered table-striped">
