@@ -16,7 +16,7 @@ module.exports = {
 	create_product: function(req, res){
 		console.log('req.body data coming in to server controller: ', req.body);
 		var product = new Product({
-			name: req.body.name,
+			product_name: req.body.name,
 			image: req.body.image,
 			description: req.body.description,
 			quantity: req.body.quantity,
@@ -31,13 +31,12 @@ module.exports = {
 		});
 	},
 	update_count: function(req, res){
-		console.log('subtracting from product', req.body.quantity, req.body.name)
-		var qty = Product.quantity - req.body.quantity
-		Product.save(req.body._id, {quantity: qty}, function(err, product){
+		console.log('subtracting from product', req.body)
+		Product.findByIdAndUpdate({_id: req.body.product}, {$inc: {quantity: -req.body.quantity}}, function(err){
 			if (err){
-				res.json(err)
+				console.log(err)
 			}else{
-				res.json(product)
+				res.json(Product)
 			}
 		})
 	}
