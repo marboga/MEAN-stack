@@ -1,16 +1,15 @@
-<div class="container" ng-controller="customersController">
+<div class="container" >
 
-<h3>Become Customer</h3>
 <h1>Welcome, {{user.name}}</h1>
-<label for="name">Your Name:</label>
-<input type="text" name="name" ng-model="new_customer.name">
-<input class="btn btn-primary" type="submit" ng-click="addCustomer()" placeholder="customer name" ng-hide="noDuplicateName()">
+<!-- <label for="name">Your Name:</label>
+<input type="text" name="name" ng-model="new_customer.name"> -->
+<!-- <input class="btn btn-primary" type="submit" ng-click="addCustomer()" placeholder="customer name" ng-hide="noDuplicateName()">
 <div id="dupe"  ng-show="noDuplicateName()">
 	{{dupe_message}}
-</div>
+</div> -->
 <br><br>
-<h3>Customers</h3>
-<table class="table table-bordered table-striped">
+<h3>All Customers</h3>
+<table class="table table-bordered table-striped table-hover">
 <thead>
 <th>Name</th>
 <th>Date Joined</th>

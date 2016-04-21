@@ -30,15 +30,15 @@ module.exports = {
 			}
 		});
 	},
-	update_count: function(req, res){
-		console.log('subtracting from product', req.body)
-		Product.findByIdAndUpdate({_id: req.body.product}, {$inc: {quantity: -req.body.quantity}}, function(err){
-			if (err){
-				console.log(err)
-			}else{
-				res.json(Product)
-			}
-		})
-	}
+	// update_count: function(req, res){
+	// 	console.log('subtracting from product', req.body)
+	// 	Product.findByIdAndUpdate({_id: req.body.product}, {$inc: {quantity: -req.body.quantity}}, function(err){
+	// 		if (err){
+	// 			console.log(err)
+	// 		}else{
+	// 			res.redirect('/orders')
+	// 		}
+	// 	})
+	// }
 
 }

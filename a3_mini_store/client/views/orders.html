@@ -1,17 +1,18 @@
-<div class="container" ng-controller="ordersController">
+<div class="container" >
 
 <h3>Make an Order</h3>
 <label for="name">Name:</label>
-<select name="name" ng-model="new_order.name">
+<select name="name" ng-model="new_order.creator">
 	<option ng-repeat="customer in customers" value="{{customer.name}}">
 		{{customer.name}}
 	</option>
 </select>
 <label for="product">Product Name:</label>
-<select name="product" ng-model="new_order.product">
-	<option ng-repeat="product in products" value="{{product._id}}">{{product.name}}</option>
+<select name="product" ng-model="new_order.name">
+	<option ng-repeat="product in products" value="{{product.name}}">{{product.name}}</option>
 </select>
 <label for="quantity">Quantity:</label>
+<!-- <input type="hidden" ng-model="new_order._id" value="{{product._id}}"> -->
 <input type="number" ng-model="new_order.quantity">
 <input class="btn btn-primary" type="submit" ng-click="addOrder()" placeholder="name of order"><br><br>
 <h3>Orders</h3>
@@ -31,12 +32,12 @@ Date Ordered
 </th>
 </thead>
 <tbody>
-	<tr ng-repeat="order in orders | filter: {name : filter_name} ">
-		<td>
-		{{order.name}} </td><td>
-		{{order.product}} </td><td>
-		{{order.quantity}} </td><td>
-		{{order.date | date}} </td>
+	<tr ng-repeat="order in orders | filter: {name : filter_name} | orderBy:createdAt">
+		<td>{{order.creator}} </td>
+		<td>{{order.name}} </td>
+		<td>{{order.quantity}} </td>
+		<!-- <td>{{order.date | date}} </td> -->
+		<td>{{order.reldate }} </td>
 		<!-- <td><a ng-click="removeOrder(order)" href="#/remove/{{order.name}}">remove friend</a></td> -->
  </tr>
 </tbody>

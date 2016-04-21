@@ -1,6 +1,6 @@
 console.log('in order factory')
 
-store_app.factory('orderFactory', function($http){
+store_app.factory('orderFactory', 'loginFactory', function($http){
 	var factory = {};
 	var orders = [];
 	var customers = [];
@@ -28,7 +28,7 @@ store_app.factory('orderFactory', function($http){
 	factory.create = function(info, callback){
 		console.log(info, "this is data passing through orders factory");
 		$http.post('/orders/new', info).success(function(info){
-			callback(info);
+			// callback(info);
 		})
 	}
 	factory.delete = function(info, callback){

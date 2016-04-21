@@ -20,8 +20,7 @@ module.exports = function(app){
 		orders.get_all(req, res)
 	})
 	app.post('/orders/new', function(req, res){
-		console.log(req.body, "this came down the pipe")
-		products.update_count(req, res)
+		console.log(req.body, "new order coming through to server")
 		orders.create_order(req, res)
 	})
 	app.get('/products', function(req, res){

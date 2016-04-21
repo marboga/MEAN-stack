@@ -2,6 +2,7 @@ console.log('in controllers/orders.js')
 
 var mongoose = require('mongoose');
 var Order = mongoose.model('Order');
+var Product = mongoose.model('Product');
 
 module.exports = {
 	get_all: function(req, res){
@@ -16,17 +17,23 @@ module.exports = {
 	create_order: function(req, res){
 		console.log('this is data posted: ',req.body);
 		var order = new Order({
-			name: req.body.name,
-			number: req.body.number,
+			creator: req.body.creator,
+			quantity: req.body.quantity,
 			product: req.body.product,
 		});
-		console.log('new order=', order)
-		order.save(function(err){
+		order.save(function(err, order){
 			if (err){
-				console.log('error occurred in DB entry beep beep');
-				res.json(err);
+				console.log(err)
+				res.json(err)
 			}else{
-				res.redirect('/');
+				console.log('subtracting from product', req.body)
+				Product.findByIdAndUpdate({_id: req.body.product}, {$inc: {quantity: -req.body.quantity}}, function(err){
+					if (err){
+						console.log(err)
+					}else{
+						res.redirect('/orders')
+					}
+				})
 			}
 		})
 	},

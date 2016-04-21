@@ -1,0 +1,23 @@
+<div class="container">
+	<p>You are logged in as {{ user.name }}</p>
+	<a pull-right href="#/dashboard">dashboard</a>
+	<a pull-right href="#/logout">log out</a>
+
+	<h4><a href="#">{{ topic._user.name }}</a> posted a topic:</h4>
+	<h3>{{ topic.title }}</h3>
+	<h5>description: {{ topic.description }}</h5>
+	<h5>category: {{ topic.category }}</h5>
+	<div class="newpost" ng-model="new_post">
+		<h5>Post your answer here:</h5>
+		<textarea name="newPost" rows="4" cols="100" ng-model="new_post.message"></textarea>
+		<input type="button" class="btn btn-primary" ng-click="addPost(new_post)" value="Post">
+	</div>
+	<hr>
+	<!-- postings: {{postings}} -->
+	<!-- posts: {{topic._postings.message}} -->
+	<div class="posts" ng-repeat="post in postings" >
+		{{posting}}
+		<h4>{{ post._user.name}}: {{ post.message }}</h4>
+		<button type="button" name="like">(thumbs up)</button>
+	</div>
+</div>

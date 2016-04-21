@@ -8,7 +8,7 @@ var productSchema = new mongoose.Schema({
 	name: {type: String, required: true},
 	image: { type: String },
 	description: { type: String, required: true },
-	quantity: { type: Number, required: true },
+	quantity: { type: Number},
 	date: { type: Date, default: Date.now }
 })
 

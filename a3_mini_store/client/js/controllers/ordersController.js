@@ -1,6 +1,7 @@
 console.log('in orders controller')
 
-store_app.controller('ordersController', function($scope, orderFactory){
+
+store_app.controller('ordersController', function($scope, orderFactory, moment, loginFactory){
 	$scope.orders = [];
 	$scope.customers = [];
 	$scope.products = [];
@@ -11,6 +12,10 @@ store_app.controller('ordersController', function($scope, orderFactory){
 		orderFactory.index(function(data){
 			$scope.orders = data;
 			$scope.new_order = {};
+			for(var index in $scope.orders){
+				$scope.orders[index].reldate = moment($scope.orders[index].date).fromNow()
+				console.log(index, $scope.orders[index].reldate, "RELDATE")
+			}
 		})
 	}
 	index();
@@ -30,8 +35,10 @@ store_app.controller('ordersController', function($scope, orderFactory){
 	getProd();
 
 	$scope.addOrder = function(){
-		console.log($scope.new_order.quantity, "new order here")
-		orderFactory.create($scope.new_order, function($scope, orderFactory){
+		if($scope.new_order)
+		$scope.new_order.creator = loginFactory.user
+		console.log($scope.new_order, "new order here")
+		orderFactory.create($scope.new_order, function( ){
 			$scope.orders = index();
 			$scope.new_order = {};
 		})

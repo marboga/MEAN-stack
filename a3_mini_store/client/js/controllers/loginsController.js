@@ -9,6 +9,7 @@ store_app.controller('loginsController', function($scope, loginFactory, $locatio
 			$location.url('/customers')
 		})
 	}
+
 	var getUser = function(){
 		loginFactory.getUser(function(data){
 			if (data){
