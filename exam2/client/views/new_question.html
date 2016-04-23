@@ -1,0 +1,12 @@
+<div class="questionAdd">
+	<h1>New Question</h1>
+	<label for="newQ">Question</label><br>
+	<textarea name="newQ" ng-model="new_question.title" rows="8" cols="40"></textarea><br>
+	<label for="newD">Description (optional)</label><br>
+	<textarea name="newQ" ng-model="new_question.description" rows="8" cols="40"></textarea><br><br>
+	<div class="errors" style="color: red;">
+		{{messages}}
+	</div>
+	<input type="submit" class="btn btn-primary" ng-click="addQuestion(new_question)" value="Submit">
+	<a class="btn btn-danger" href="#/main">Cancel</a>
+</div>

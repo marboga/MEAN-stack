@@ -1,0 +1,16 @@
+<div class="answerpage">
+
+	<h1>{{ question.title }}</h1>
+	<h3>{{ question.description }}</h3>
+	<h1 style="color: red;">{{messages}}</h1>
+	<div class="newanswer">
+		<h5>Post your answer here:</h5>
+		<label for="newAnswer">Your Answer: </label><br>
+		<textarea name="newAnswer" rows="4" cols="100" ng-model="new_answer.text" required ng-minlength="5"></textarea><br>
+		<label for="newDetails">Supporting details for your answer (optional)</label><br>
+		<textarea name="newDetails" rows="4" cols="100" ng-model="new_answer.details"></textarea><br>
+		<input type="button" class="btn btn-primary" ng-click="addAnswer(new_answer)" value="Submit">
+		<a class="btn btn-danger" href="#/main">Cancel</a>
+	</div>
+
+</div>

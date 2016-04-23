@@ -1,0 +1,34 @@
+<div class="home" ng-controller="questionsController">
+	<label for="searchbar">Search:</label>
+	<input type="text" name="searchbar" ng-model="filter_input">
+	<div class="messages">
+		{{messages}}
+	</div>
+	<table class="table table-bordered table-hover">
+		<thead>
+			<th>Question</th>
+			<th>Answers</th>
+			<th>Action</th>
+		</thead>
+		<tbody>
+			<tr ng-repeat="question in questions | filter: {title: filter_input} | orderBy:createdAt">
+				<td>
+					{{ question.title }}
+				</td>
+				<td>
+					{{ question._answers.length }}
+				</td>
+				<td>
+					<a href="#/question/{{question._id}}">
+						view
+					</a> |
+					<a href="#/question/{{question._id}}/new_answer">
+						respond
+					</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+
+</div>

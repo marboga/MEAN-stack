@@ -1,0 +1,15 @@
+<div class="answers">
+
+	<h1>{{ question.title }}</h1>
+	<h3>{{ question.description }}</h3>
+	{{messages}}
+	<!-- question{{question}} -->
+	<div class="answer" ng-repeat="answer in question._answers | orderBy:['-likes', 'createdAt']">
+		<h4>{{answer._user.name}}: {{answer.text}} </h4><br>
+		<p>
+			{{answer.details}}
+		</p><br>
+		<h5>likes: +{{answer.likes}} <button class="btn btn-success" type="button" ng-click="addLike(answer)">like!</button></h5>
+	</div>
+
+</div>
