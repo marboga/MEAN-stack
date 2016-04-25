@@ -23,16 +23,23 @@ module.exports = {
 		console.log('this is gooing in db: ', req.body)
 		topic.save(function(err, topic){
 			if(err){
-				console.log(err)
+				console.log("HEYHEY ERR", err)
 				res.json(err)
 			}else{
-				console.log('db push successful')
-				res.json(topic)
+				console.log('HEY HEY', req.body._user, req.body)
+				User.findOneAndUpdate({_id: req.body._user}, {$push: {_topics: req.body._user._id}}, function(err){
+					if (err){
+						console.log(err)
+					}else{
+						console.log('db push successful')
+						res.json(topic)
+					}
+				})
 			}
 		})
 	},
 	find: function(req, res){
-		Topic.find({_id: req.params.id}).deepPopulate('_user _postings _postings._user').exec(function(err, data){
+		Topic.find({_id: req.params.id}).deepPopulate('_user _postings _postings._comments._user _postings._comments _user.name').exec(function(err, data){
 			if (err){
 				console.log(err)
 				res.json(err)

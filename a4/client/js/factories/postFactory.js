@@ -26,5 +26,23 @@ MyApp.factory('postFactory', function($http){
 		})
 	}
 
+	factory.comment = function(info, callback){
+		console.log('new comment here', info)
+		$http.post('/comment/new', info).success(function(info){
+			callback(info);
+		})
+	}
+
+	factory.update = function(info, callback){
+		$http.get('/posts/'+info+'/like').success(function(info){
+			callback(info);
+		})
+	}
+	factory.downvote = function(info, callback){
+		$http.get('/posts/'+info+'/dislike').success(function(info){
+			callback(info);
+		})
+	}
+
 	return factory;
 })

@@ -26,4 +26,16 @@ module.exports = {
 			}
 		})
 	},
+	findOne: function(req, res){
+		// console.log('in findOne function', req.params.id)
+		User.findOne({_id: req.params.id}, function(err, user){
+			if (err){
+				console.log(err)
+				res.json(err)
+			}else{
+				console.log(user, "USER RETRIEVED")
+				res.json(user)
+			}
+		})
+	},
 }

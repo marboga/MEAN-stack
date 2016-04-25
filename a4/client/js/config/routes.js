@@ -14,5 +14,8 @@ MyApp.config(function($routeProvider){
 	.when('/topic/:id', {
 		templateUrl: './../views/posts.html', controller: 'postsController'
 	})
+	.when('/user/:id', {
+		templateUrl: './../views/user.html', controller: 'usersController'
+	})
 	.otherwise('/')
 })
